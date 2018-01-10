@@ -31,22 +31,24 @@
     		      </li>
     	        </ul>
     		</li>
-    	          </ul>
+          </ul>
     </div>
-          <shopcart></shopcart>
-    </div>
+     <shopcart :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"></shopcart>
+</div>
 </template>
+   
 
 <script>
-
 import BS from 'better-scroll';
-
-import shopcart from './components/shopcart/shopcart';
+import shopcart from '../../components/shopcart/shopcart';
 export default {
   props: {
    seller: {
    type: Object
    }
+  },
+  components: {
+shopcart
   },
   data() {
    return {
@@ -112,12 +114,7 @@ export default {
         console.log(el);
         this.foodScroll.scrollToElement(el, 300);
       }
- },
-    components: {
-      shopcart: shopcart, // 注册购物车组件
-      cartcontrol: cartcontrol, // 注册加减按钮组件
-      food: food // 注册food组件
-    }
+ }
 };
 </script>
 
