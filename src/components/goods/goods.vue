@@ -12,8 +12,8 @@
     		<li v-for='item in goods' class="food-list food-hook">
     			<h1 class="title">{{item.name}}</h1>
 	    	    <ul>
-    		      <li v-for='food in item.foods' class="food-item">
-    		      	<div class="icon">
+    		      <li v-for='food in item.foods' class="food-item" >
+    		      	<div class="icon" @click="selectFood(food,$event)">
     		      		<img :src="food.icon" alt="icon" width="57" height="57">
     		      	</div>
     		      	<div class="content">
@@ -26,6 +26,9 @@
     		      		<div class="price">
     		      			<span class="now">￥{{food.price}}</span>
     		      			<span  class='old' v-show='food.oldPrice'>￥{{food.oldPrice}}</span>
+ 	    		      		<div class="cartcontrol-wrapper">
+    		      				<cartcontrol :food='food'></cartcontrol>
+    		      			</div>
     		      		</div>
     		      	</div>
     		      </li>
@@ -34,13 +37,14 @@
           </ul>
     </div>
      <shopcart :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"></shopcart>
+ <food :food="selectedFood" ref="food"></food>
 </div>
 </template>
-   
-
 <script>
 import BS from 'better-scroll';
-import shopcart from '../../components/shopcart/shopcart';
+import shopcart from '@/components/shopcart/shopcart';
+import cartcontrol from '@/components/cartcontrol/cartcontrol';
+import food from '@/components/food/food';
 export default {
   props: {
    seller: {
@@ -48,13 +52,16 @@ export default {
    }
   },
   components: {
-shopcart
+shopcart,
+cartcontrol,
+food
   },
   data() {
    return {
   goods: [],
   listHeight: [],
-  scrollY: 0
+  scrollY: 0,
+  selectedFood: {}
    };
   },
 
@@ -87,10 +94,18 @@ shopcart
   methods: {
  _initScroll() {
  this.menuScroll = new BS(this.$refs.menuWrapper, {click: true});
- this.foodScroll = new BS(this.$refs.foodWrapper, {probeTpye: 3});
+ this.foodScroll = new BS(this.$refs.foodWrapper, {click: true, probeTpye: 3});
         this.foodScroll.on('scroll', (pos) => {
           this.scrollY = Math.abs(Math.round(pos.y));
  });
+},
+selectFood(food, event) {
+ if (!event._constructed) {
+ return;
+ }
+ this.selectedFood = food;
+ console.log(this.selectedFood.image);
+ this.$refs.food.show();
 },
   calculateHeight() {
         // 获取右侧一个商品的整个li，一个li里面包含了该分类下的所有商品
@@ -114,6 +129,7 @@ shopcart
         console.log(el);
         this.foodScroll.scrollToElement(el, 300);
       }
+
  }
 };
 </script>
@@ -182,6 +198,7 @@ shopcart
 }
 .food-item .content {
 	flex: 1;
+	position: relative;
 }
 .content .name {
 	font-size: 14px;
@@ -204,6 +221,11 @@ shopcart
 .price {
   font-weight: 700px;
   line-height: 24px;
+}
+.cartcontrol-wrapper {
+	position: absolute;
+	right: 0;
+	bottom: -6px;
 }
 .now {
 	margin-right: 18px;

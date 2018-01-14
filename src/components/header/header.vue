@@ -23,7 +23,7 @@
      		</div>
      		<div class="supportcount" v-if='seller.supports' @click="showDetail">
      			<span class="counts">{{seller.supports.length}}个</span>
-     			<span class="icon icon-keyboard_arrow_right"></span>
+     			<span class="icon-keyboard_arrow_right"></span>
      		</div>
      	</div>
      	<div class="bulletin-wrapper">
@@ -31,6 +31,7 @@
      			<img src="./bulletin@2x.png" width="22" height="12">
      		</span>
      		<span class="bulletin-text" @click="showDetail">{{seller.bulletin}}</span>
+     		<span class="icon-keyboard_arrow_right"></span>
      	</div>
      	<div class="background">
      		<img :src="seller.avatar" width="100%" height="100%">
@@ -170,10 +171,7 @@ export default{
 .supports {
 	vertical-align: top;
 }
-.icon {
-	padding: 2px 4px 0 0;
-	float: left;
-}
+
 .text {
 	line-height: 12px;
 	height: 12px;
@@ -191,6 +189,10 @@ export default{
     border-radius: 14px;
     background-color: rgba(0,0,0,.2);
     text-align: center;
+}
+.icon-keyboard_arrow_right {
+	width: 12px;
+	height: 12px;
 }
 .counts {
 	display: inline-block;
@@ -298,7 +300,7 @@ export default{
 	position: relative;
 	width: 32px;
 	height: 32px;
-	margin: -64px auto 0 auto;
+	margin: -64px auto -10px auto;
 	clear: both;
 	font-size: 24px;
 
